@@ -5,8 +5,8 @@ body {
 }
 
 .img-container {
-    width: 400px; /* Fast bredde */
-    height: 400px; /* Fast høyde */
+    width: 500px; /* Fast bredde */
+    height: 500px; /* Fast høyde */
     display: flex; 
     justify-content: center; /* Sentrer bildet horisontalt */
     align-items: center; /* Sentrer bildet vertikalt */
@@ -31,3 +31,18 @@ button {
     margin: 5px; 
     cursor: pointer; 
 }
+
+.input-container {
+    margin-top: 20px; /* Gir avstand fra knappene */
+}
+
+input[type="number"] {
+    font-size: 20px; /* Gjør teksten like stor som på knappene */
+    padding: 10px; /* Samme padding som knappene */
+    height: 24px; /* Gir samme høyde som knappene */
+    border: 2px solid #333; /* Gir samme stil som knappene */
+    border-radius: 5px; /* Runde hjørner for en finere stil */
+    text-align: center; /* Sentrerer tallene */
+    outline: none; /* Fjerner blå kant ved fokus */
+}
+

@@ -33,5 +33,29 @@
             updateUI();
         }
 
+        function setStreak() {
+            let inputField = document.getElementById("streakInput");
+            let inputValue = inputField.value;
+            let newStreak = parseInt(inputValue);
+        
+            if (!isNaN(newStreak) && newStreak >= 0) {
+                streak = newStreak;
+                localStorage.setItem("streak", streak); // Lagre ny streak-verdi
+                updateUI();
+                inputField.value = ""; // Tømmer input-feltet etter bruk
+            } else {
+                alert("Vennligst skriv inn et gyldig tall!");
+            }
+        }
+
+        // Lytter etter "Enter"-tasten i input-feltet
+        document.getElementById("streakInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                setStreak(); // Kaller setStreak-funksjonen
+            }
+        });
+
+        
+
         // Oppdater UI ved oppstart
         updateUI();
