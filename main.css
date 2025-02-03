@@ -1,0 +1,33 @@
+body { 
+    text-align: center; 
+    font-family: Arial, sans-serif; 
+    margin-top: 50px; 
+}
+
+.img-container {
+    width: 400px; /* Fast bredde */
+    height: 400px; /* Fast høyde */
+    display: flex; 
+    justify-content: center; /* Sentrer bildet horisontalt */
+    align-items: center; /* Sentrer bildet vertikalt */
+    margin: auto; /* Sentrerer containeren */
+    overflow: hidden; /* Hindrer at store bilder ødelegger layouten */
+}
+
+img { 
+    width: 100%; 
+    height: 100%;
+    object-fit: contain; /* Sørger for at bildet ikke strekkes */
+}
+
+.counter { 
+    font-size: 24px; 
+    margin: 20px; 
+}
+
+button { 
+    font-size: 20px; 
+    padding: 10px; 
+    margin: 5px; 
+    cursor: pointer; 
+}
