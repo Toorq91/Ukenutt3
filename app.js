@@ -16,8 +16,10 @@
                 emoji.src = "img/NarutoStreak.png"; // Når streak er 10 eller mer
             } else if (streak < 30) {
                 emoji.src = "img/NarutoStreak2.jpg"; // Når streak er 20 eller mer
-            } else {
+            } else if (streak < 50) {
                 emoji.src = "img/NarutoStreak3.png"; // Når streak er 30 eller mer
+            } else {
+                emoji.src = "img/NarutoGodlike.jpg"; // Når streak er 50 eller mer
             }
         }
 
