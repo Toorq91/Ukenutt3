@@ -36,7 +36,7 @@ function addRifts() {
     const rowHeight = 100; // Vertikal avstand mellom rader
     const imgWidth = 600; // Bredden på bildet (img-container)
     const imgMargin = 20; // Ekstra margin mellom gruppene og bildet
-    const leftOffset = 50; // Startposisjon for riftene til venstre for bildet
+    const leftOffset = 70; // Startposisjon for riftene til venstre for bildet
     const rightOffset = leftOffset + imgWidth + imgMargin + groupsPerRow * groupWidth; // Startposisjon for riftene til høyre for bildet
 
     const maxStreaks = 480; // Maksimalt antall streker som kan tegnes
