@@ -1,7 +1,6 @@
 let streak = localStorage.getItem("streak") ? parseInt(localStorage.getItem("streak")) : 0;
 let emoji = document.getElementById("emoji");
 let streakText = document.getElementById("streak");
-let imgContainer = document.querySelector(".img-container");
 
 // Funksjon for å oppdatere UI og legge til riftene
 function updateUI() {
@@ -13,7 +12,7 @@ function updateUI() {
         emoji.src = "img/NarutoSad.jpg"; // Når streak er 0
         clearRifts(); // Fjern alle rifter når streak er 0
     } else {
-        addRifts(); // Legg til riftene når streak er økt
+        addRifts(); // Legg til rifter når streak er økt
         if (streak < 10) {
             emoji.src = "img/NarutoHappy.jpg"; // Når streak er mellom 1-9
         } else if (streak < 20) {
@@ -28,63 +27,58 @@ function updateUI() {
     }
 }
 
-// Funksjon for å legge til riftene med fast posisjon
+// Funksjon for å legge til rifter
 function addRifts() {
-    const groupsPerRow = 6; // Antall grupper på venstre og høyre side per rad
-    const groupWidth = 100; // Horisontal avstand mellom grupper
-    const riftSpacing = 15; // Avstand mellom rifter i en gruppe
-    const rowHeight = 100; // Vertikal avstand mellom rader
-    const imgWidth = 600; // Bredden på bildet (img-container)
-    const imgMargin = 20; // Ekstra margin mellom gruppene og bildet
-    const leftOffset = 70; // Startposisjon for riftene til venstre for bildet
-    const rightOffset = leftOffset + imgWidth + imgMargin + groupsPerRow * groupWidth; // Startposisjon for riftene til høyre for bildet
-
-    const maxStreaks = 480; // Maksimalt antall streker som kan tegnes
-    const maxGroups = Math.floor(maxStreaks / 5); // Maksimalt antall grupper
-    let numberOfGroups = Math.min(Math.floor(streak / 5), maxGroups); // Begrens til maks antall grupper
-    let extraRifts = Math.min(streak % 5, maxStreaks - numberOfGroups * 5); // Begrens ekstra rifter
+    const groupsPerRow = 6; // Antall grupper på hver side per rad
+    const groupWidth = window.innerWidth * 0.06; // 6% av skjermbredden
+    const riftSpacing = groupWidth * 0.15; // 15% av groupWidth
+    const rowHeight = window.innerHeight * 0.1; // 10% av skjermhøyden
+    const imgWidth = document.querySelector(".img-container").offsetWidth;
+    const imgMargin = imgWidth * 0.03; // 3% av bildets bredde
+    const leftOffset = imgWidth * 0.1; // 10% av bildets bredde
+    const rightOffset = leftOffset + imgWidth + imgMargin + groupsPerRow * groupWidth;
 
     // Fjern tidligere rifter
     clearRifts();
 
+    const maxStreaks = 540; // Maksimalt antall streker
+    const maxGroups = Math.floor(maxStreaks / 5); // Maksimalt antall grupper
+    let numberOfGroups = Math.min(Math.floor(streak / 5), maxGroups); // Begrens til maks antall grupper
+    let extraRifts = Math.min(streak % 5, maxStreaks - numberOfGroups * 5); // Begrens ekstra rifter
+
     for (let group = 0; group < numberOfGroups; group++) {
-        // Beregn hvilken side (venstre eller høyre), rad og kolonne gruppen tilhører
-        let totalCols = groupsPerRow * 2; // Totalt antall grupper per rad (venstre + høyre)
+        let totalCols = groupsPerRow * 2; // Totalt antall grupper per rad
         let row = Math.floor(group / totalCols); // Beregn raden
         let col = group % totalCols; // Beregn kolonnen
 
-        // Bestem om gruppen skal være på venstre eller høyre side
         let xOffset = col < groupsPerRow
-            ? leftOffset + col * groupWidth // Venstre side
-            : rightOffset + (col - groupsPerRow) * groupWidth; // Høyre side
+            ? leftOffset + col * groupWidth
+            : rightOffset + (col - groupsPerRow) * groupWidth;
 
-        let yOffset = 50 + row * rowHeight; // Y-posisjon for raden
+        let yOffset = row * rowHeight;
 
-        // Legg til 4 vertikale rifter for denne gruppen
         for (let i = 0; i < 4; i++) {
             let rift = createRift(xOffset + i * riftSpacing, yOffset);
             document.body.appendChild(rift);
         }
 
-        // Legg til den skrå riften
-        let angledRift = createRift(xOffset - 20, yOffset + 20);
-        angledRift.style.transform = "rotate(-25deg)";
-        angledRift.style.width = "90px"; // Bred nok til å krysse alle fire linjene
-        angledRift.style.height = "5px"; // Tynn for å matche de vertikale linjene
+        // Legg til skrå rift
+        let angledRift = createRift(xOffset - 10, yOffset + rowHeight * 0.4);
+        angledRift.classList.add("angled-rift");
         document.body.appendChild(angledRift);
     }
 
-    // Legg til eventuelle resterende rifter som ikke danner en full gruppe
+    // Ekstra rifter
     if (numberOfGroups < maxGroups) {
-        let totalCols = groupsPerRow * 2; // Totalt antall grupper per rad
-        let lastRow = Math.floor(numberOfGroups / totalCols); // Beregn den siste raden
-        let lastCol = numberOfGroups % totalCols; // Beregn kolonnen i siste raden
+        let totalCols = groupsPerRow * 2;
+        let lastRow = Math.floor(numberOfGroups / totalCols);
+        let lastCol = numberOfGroups % totalCols;
 
         let xOffset = lastCol < groupsPerRow
-            ? leftOffset + lastCol * groupWidth // Venstre side
-            : rightOffset + (lastCol - groupsPerRow) * groupWidth; // Høyre side
+            ? leftOffset + lastCol * groupWidth
+            : rightOffset + (lastCol - groupsPerRow) * groupWidth;
 
-        let yOffset = 50 + lastRow * rowHeight; // Y-posisjon for siste rad
+        let yOffset = lastRow * rowHeight;
 
         for (let i = 0; i < extraRifts; i++) {
             let rift = createRift(xOffset + i * riftSpacing, yOffset);
@@ -93,48 +87,43 @@ function addRifts() {
     }
 }
 
-// Funksjon for å lage en individuell rift
+// Funksjon for å lage en rift
 function createRift(left, top) {
     let rift = document.createElement("div");
     rift.classList.add("rift");
-    rift.style.left = `${left}px`;
-    rift.style.top = `${top}px`;
+    rift.style.left = `${(left / window.innerWidth) * 100}vw`;
+    rift.style.top = `${(top / window.innerHeight) * 100}vh`;
     return rift;
 }
 
-// Funksjon for å fjerne alle rifter når streak er 0
+// Fjern rifter
 function clearRifts() {
     let rifts = document.querySelectorAll('.rift');
-    rifts.forEach(rift => {
-        rift.remove();
-    });
+    rifts.forEach(rift => rift.remove());
 }
 
-// function incrementStreak() {
-//     streak++;
-//     localStorage.setItem("streak", streak); // Lagre ny streak-verdi
-//     updateUI();
-// }
-
+// Inkrementer streak
 function incrementStreak() {
-    const maxStreaks = 480; // Maksimalt antall streker
+    const maxStreaks = 540;
     if (streak >= maxStreaks) {
-        alert("Du har nådd max streak!!! Endre koden hvis du vil fortsette med streaken! :D");
-        return; // Stopper funksjonen hvis maks streak er nådd
+        alert("Du har nådd max streak!");
+        return;
     }
     streak++;
-    localStorage.setItem("streak", streak); // Lagre ny streak-verdi
+    localStorage.setItem("streak", streak);
     updateUI();
 }
 
+// Tilbakestill streak
 function resetStreak() {
     streak = 0;
-    localStorage.setItem("streak", streak); // Nullstill streak
+    localStorage.setItem("streak", streak);
     updateUI();
 }
 
+// Sett streak
 function setStreak() {
-    const maxStreaks = 480; // Maksimalt antall streker
+    const maxStreaks = 540; // Maksimalt antall streker
     let inputField = document.getElementById("streakInput");
     let inputValue = inputField.value;
     let newStreak = parseInt(inputValue);
@@ -163,5 +152,8 @@ document.getElementById("streakInput").addEventListener("keypress", function(eve
     }
 });
 
-// Oppdater UI ved oppstart
-updateUI();
+// Når siden lastes, oppdater streak og UI basert på verdien i localStorage
+document.addEventListener("DOMContentLoaded", function () {
+    streak = localStorage.getItem("streak") ? parseInt(localStorage.getItem("streak")) : 0;
+    updateUI();
+});

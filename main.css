@@ -1,7 +1,8 @@
+/* Sikrer at hele siden ser bra ut */
 html, body {
-    overflow: hidden; /* Forhindrer at scrollbaren vises */
+    overflow: hidden; /* Forhindrer scrollbars */
     margin: 0;
-    height: 100%; /* Sørger for at body tar hele høyden på vinduet */
+    height: 100%; /* Fyll hele vinduet */
 }
 
 body {
@@ -11,42 +12,53 @@ body {
     position: relative;
 }
 
+/* Container for bildet */
 .img-container {
-    width: 500px; /* Fast bredde */
-    height: 500px; /* Fast høyde */
+    width: 25vw; /* Skalerer bredde med vinduets bredde */
+    height: 20vw; /* Skalerer høyde med vinduets bredde */
     display: flex;
     justify-content: center; /* Sentrer bildet horisontalt */
     align-items: center; /* Sentrer bildet vertikalt */
     margin: auto;
     overflow: hidden;
     position: relative;
-    z-index: 1; /* Sørg for at img-container er foran bakgrunnen */
+    z-index: 1; /* Sørger for at bildet ligger foran */
 }
 
+/* Bildet */
 img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
+/* Vertikale rifter */
 .rift {
-    position: absolute; /* Bruk absolute for bedre kontroll */
-    width: 5px; /* Bredden på vertikale rifter */
-    height: 50px; /* Høyden på vertikale rifter */
-    background: black; /* Gjør linjene tydelige */
+    position: absolute;
+    width: 0.25vw; /* Bredden på riftene (skalerer med vinduets bredde) */
+    height: 5vh; /* Høyden på riftene (skalerer med vinduets høyde) */
+    background: black; /* Fargen på riftene */
     opacity: 0.7;
 }
 
-.rift[style*="rotate"] {
-    width: 100px; /* Bred nok til å krysse over */
-    height: 5px; /* Tynn for å matche de andre linjene */
+/* Skrå rifter */
+.angled-rift {
+    position: absolute;
+    width: 4.5vw; /* Bredden skalerer med vinduets bredde */
+    height: 0.5vh; /* Høyden skalerer med vinduets høyde */
+    background: black; /* Samme stil som vertikale rifter */
+    opacity: 0.7;
+    transform-origin: left center; /* Rotasjonen skjer fra venstre midtpunkt */
+    transform: rotate(-25deg); /* Vinkel på skrå linje */
 }
 
+/* Streak-telleren */
 .counter { 
     font-size: 24px; 
     margin: 20px; 
 }
 
+/* Knappene */
 button { 
     font-size: 20px; 
     padding: 10px; 
@@ -55,16 +67,17 @@ button {
     cursor: pointer; 
 }
 
+/* Input-feltet */
 .input-container {
     margin-top: 20px; /* Gir avstand fra knappene */
 }
 
 input[type="number"] {
-    font-size: 20px; /* Gjør teksten like stor som på knappene */
-    padding: 10px; /* Samme padding som knappene */
+    font-size: 20px; /* Samme fontstørrelse som knappene */
+    padding: 10px; /* Lik padding som knappene */
     height: 24px; /* Gir samme høyde som knappene */
-    border: 2px solid #333; /* Gir samme stil som knappene */
-    border-radius: 5px; /* Runde hjørner for en finere stil */
-    text-align: center; /* Sentrerer tallene */
+    border: 2px solid #333; /* Ramme */
+    border-radius: 5px; /* Runde hjørner */
+    text-align: center; /* Sentrerer tekst/tall */
     outline: none; /* Fjerner blå kant ved fokus */
 }
